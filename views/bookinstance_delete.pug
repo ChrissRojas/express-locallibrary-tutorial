@@ -1,0 +1,26 @@
+extends layout
+
+block content
+
+  h1 Are you sure you want to delete? #{bookInstance._id}
+
+  p #[strong Title: ]
+    a(href=bookInstance.book.url) #{bookInstance.book.title}
+  p #[strong Imprint:] #{bookInstance.imprint}
+
+  p #[strong Status: ]
+    if bookInstance.status=='Available'
+      span.text-success #{bookInstance.status}
+    else if bookInstance.status=='Maintenance'
+      span.text-danger #{bookInstance.status}
+    else
+      span.text-warning #{bookInstance.status}
+
+  if bookInstance.status!='Available'
+    p #[strong Due back:] #{bookInstance.due_back_formatted}
+
+  hr
+  form(method='POST')
+    div.form-group
+        input#bookInstanceid.form-control(type='hidden', name='bookinstanceId', value=bookInstance.id)
+    button.btn.btn-primary(type='submit') Delete
